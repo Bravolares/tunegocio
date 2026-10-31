@@ -4,9 +4,11 @@ let configData = {};
 let selectedProducts = {};
 
 // Inicializar la carga asíncrona de datos desde la API
+// Inicializar la carga asíncrona de datos desde el archivo JSON local
 async function init() {
     try {
-        const resp = await fetch('api.php?action=get');
+        // CAMBIO AQUÍ: Llamamos directamente al archivo JSON que creamos antes
+        const resp = await fetch('productos.json');
         configData = await resp.json();
         products = configData.productos || [];
         
@@ -14,17 +16,14 @@ async function init() {
             document.getElementById('emp-nombre').innerText = configData.empresa.nombre || "Sazón Urbano";
             document.getElementById('emp-eslogan').innerText = configData.empresa.eslogan || "Sabores que conectan";
             
-            // Si la ruta del JSON falla o no se encuentra físicamente, cargará la de Picsum
             const rutaLogo = configData.empresa.logo || "";
             
-            // >>> AQUÍ APLICAMOS EL TRUCO PARA DESTRUIR LA CACHÉ DEL NAVEGADOR <<<
             if (rutaLogo !== "") {
                 document.getElementById('emp-logo').src = rutaLogo + "?v=" + new Date().getTime();
             } else {
                 document.getElementById('emp-logo').src = "";
             }
             
-            // RESPALDO: Si la imagen local arroja error, activa la foto aleatoria cuadrada
             document.getElementById('emp-logo').onerror = function() {
                 this.src = "https://picsum.photos"; 
             };
@@ -32,9 +31,10 @@ async function init() {
 
         renderCatalog();
     } catch (error) {
-        console.error("Error cargando los datos de la API:", error);
+        console.error("Error cargando los datos del archivo JSON:", error);
     }
 }
+
 
 
 // Pintar dinámicamente las tarjetas del catálogo según la pestaña
