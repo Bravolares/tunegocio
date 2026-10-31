@@ -1,0 +1,308 @@
+:root {
+    --bg-main: #121824;
+    --bg-card: #1c2434;
+    --accent: #ff4757;
+    --text-white: #ffffff;
+    --text-muted: #a0aec0;
+    --success: #00e676;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Roboto, sans-serif;
+}
+
+body {
+    background-color: var(--bg-main);
+    color: var(--text-white);
+    padding-bottom: 90px;
+}
+
+header {
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    background-color: var(--bg-card);
+    border-bottom: 1px solid #2d3748;
+}
+
+.logo-img-header {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 15px;
+    border: 2px solid var(--accent);
+}
+
+.header-info h1 {
+    font-size: 1.3rem;
+}
+
+.header-info p {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+}
+
+.categories {
+    display: flex;
+    justify-content: space-around;
+    padding: 15px;
+    background: var(--bg-main);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.cat-btn {
+    background: var(--bg-card);
+    color: var(--text-white);
+    border: 1px solid #2d3748;
+    padding: 10px 20px;
+    border-radius: 25px;
+    cursor: pointer;
+    font-weight: 600;
+    width: 30%;
+    font-size: 0.9rem;
+    transition: 0.2s;
+}
+
+.cat-btn.active {
+    background: var(--accent);
+    border-color: var(--accent);
+}
+
+.catalog {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    padding: 15px;
+}
+
+.product-card {
+    background-color: var(--bg-card);
+    border-radius: 12px;
+    overflow: hidden;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+    border: 1px solid #2d3748;
+}
+
+.product-img {
+    width: 100%;
+    height: 110px;
+    object-fit: cover;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.product-title {
+    font-size: 0.95rem;
+    margin-top: 8px;
+    font-weight: bold;
+}
+
+.product-desc {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    margin: 4px 0;
+    height: 32px;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+
+.product-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: auto;
+}
+
+.product-price {
+    font-size: 0.9rem;
+    color: var(--success);
+    font-weight: bold;
+}
+
+.check-box {
+    width: 22px;
+    height: 22px;
+    border: 2px solid var(--text-muted);
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.check-box.checked {
+    background-color: var(--success);
+    border-color: var(--success);
+}
+
+.check-box.checked::after {
+    content: '✓';
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.quantity-control {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-right: 10px;
+    background: #2d3748;
+    padding: 2px 8px;
+    border-radius: 6px;
+}
+
+.qty-btn {
+    background: none;
+    border: none;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 16px;
+    padding: 0 4px;
+}
+
+.qty-btn.minus { color: var(--accent); }
+.qty-btn.plus { color: var(--success); }
+
+/* Nuevo Estilo para la Caja de Notas Adicionales */
+.product-note-input {
+    width: 100%;
+    background: #2d3748;
+    border: 1px solid #4a5568;
+    border-radius: 6px;
+    color: var(--text-white);
+    padding: 6px 8px;
+    font-size: 0.8rem;
+    margin-top: 8px;
+    box-sizing: border-box;
+}
+.product-note-input:focus {
+    outline: none;
+    border-color: var(--accent);
+}
+
+.fixed-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 75px;
+    background-color: var(--bg-card);
+    border-top: 2px solid #2d3748;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+    z-index: 100;
+}
+
+.total-box {
+    font-size: 1.1rem;
+    font-weight: bold;
+}
+
+.btn-whatsapp {
+    background-color: #25d366;
+    color: white;
+    border: none;
+    padding: 12px 18px;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 0.95rem;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 500;
+    opacity: 0;
+    pointer-events: none;
+    transition: 0.3s;
+}
+
+.modal.open {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.modal-content {
+    background: var(--bg-card);
+    width: 85%;
+    max-width: 400px;
+    border-radius: 16px;
+    overflow: hidden;
+    position: relative;
+    border: 1px solid #2d3748;
+}
+
+.modal-close {
+    position: absolute;
+    top: 12px;
+    right: 15px;
+    font-size: 24px;
+    color: white;
+    cursor: pointer;
+    background: rgba(0,0,0,0.5);
+    width: 32px; height: 32px;
+    display: flex; align-items: center; justify-content: center;
+    border-radius: 50%;
+}
+
+.modal-img {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+}
+
+.modal-body {
+    padding: 20px;
+}
+
+.modal-title {
+    font-size: 1.3rem;
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+
+.modal-ingredients {
+    font-size: 0.95rem;
+    color: #cbd5e0;
+    line-height: 1.4;
+    margin-top: 10px;
+    background: #121824;
+    padding: 10px;
+    border-radius: 8px;
+    border-left: 4px solid var(--accent);
+}
+
+
+/* Ajuste específico para el contenedor del modal del logo */
+.modal-content.logo-modal-adjustment {
+    max-width: 350px;
+    text-align: center;
+    padding: 20px;
+}

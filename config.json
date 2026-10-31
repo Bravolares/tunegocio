@@ -1,0 +1,50 @@
+{
+  "empresa": {
+    "nombre": "Sazón Urbano",
+    "eslogan": "Sabores que conectan",
+    "whatsapp": "+573219163532",
+    "logo": "imagenes/mi-logo.jpg"
+  },
+  "productos": [
+    {
+      "id": 1,
+      "nombre": "Doble Carne Queso",
+      "descripcion": "Carne, cebolla, jamón, queso, lechuga.",
+      "precio": 29000,
+      "imagen": "images/hamburguesa.jpg",
+      "categoria": "Platos"
+    },
+    {
+      "id": 2,
+      "nombre": "Perro Caliente Especial",
+      "descripcion": "Salchicha americana, ripio de papa, queso, salsas de la casa.",
+      "precio": 18500,
+      "imagen": "images/perro.jpg",
+      "categoria": "Platos"
+    },
+    {
+      "id": 3,
+      "nombre": "Papas Cheddar Bacon",
+      "descripcion": "Papas fritas crocantes bañadas en queso cheddar y trozos de tocineta.",
+      "precio": 16000,
+      "imagen": "images/papas.jpg",
+      "categoria": "Platos"
+    },
+    {
+      "id": 4,
+      "nombre": "Coca-Cola 1.5L",
+      "descripcion": "Bebida refrescante tamaño familiar bien fría.",
+      "precio": 9500,
+      "imagen": "images/coca_cola.jpg",
+      "categoria": "Bebidas"
+    },
+    {
+      "id": 5,
+      "nombre": "Limonada Cerezada",
+      "descripcion": "Limonada natural frapeada con almíbar de cereza.",
+      "precio": 11000,
+      "imagen": "images/limonada.jpg",
+      "categoria": "Bebidas"
+    }
+  ]
+}
