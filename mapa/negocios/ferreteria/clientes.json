@@ -1,0 +1,25 @@
+{
+    "negocios": [
+        {
+            "id": "ferreteria-el-tornillo",
+            "activo": true,
+            "nombre": "Ferretería El Tornillo",
+            "rubro": "Ferreteria",
+            "direccion": "Calle 5 #4-10, Ubaté",
+            "whatsapp": "573219163532",
+            "comentario": "",
+            "foto": "",
+            "pagina": "",
+            "carpeta": "negocios/ferreteria/ferreteria-el-tornillo",
+            "lat": 5.3075,
+            "lng": -73.814,
+            "etiqueta": {
+                "posicion": "right",
+                "desplazamiento": [
+                    14,
+                    0
+                ]
+            }
+        }
+    ]
+}

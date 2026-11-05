@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#2563eb">
+  <title>Celulokos - Mapa</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <link rel="stylesheet" href="estilos/mapa.css">
+</head>
+<body>
+  <header>
+    <b>🤪 Celulokos - Mapa</b>
+  </header>
+
+  <div class="barra-filtros">
+    <button id="botonFiltro" class="boton-filtro" type="button" aria-haspopup="true" aria-expanded="false">Todos</button>
+    <div id="menuFiltros" class="menu-filtros" role="menu" hidden></div>
+  </div>
+  <div id="mapa" aria-label="Mapa de negocios">
+    <div id="estadoMapa" class="estado-mapa" role="alert" hidden></div>
+  </div>
+  <div class="selector-mapa">
+    <button id="botonCapa" class="boton-capa" type="button" aria-pressed="false">🛰️ Ver satélite</button>
+  </div>
+
+  <div id="visorFoto" class="visor-foto" role="dialog" aria-modal="true" aria-label="Foto de la fachada ampliada" hidden>
+    <button id="cerrarVisor" class="visor-cerrar" type="button" aria-label="Cerrar foto">×</button>
+    <div class="visor-foto-contenido">
+      <img id="imagenAmpliada" class="visor-foto-imagen" alt="">
+    </div>
+    <div class="visor-foto-controles" aria-label="Controles de zoom">
+      <button id="alejarFoto" type="button" aria-label="Alejar">−</button>
+      <button id="restablecerZoom" type="button" aria-label="Restablecer zoom">Restablecer</button>
+      <button id="acercarFoto" type="button" aria-label="Acercar">+</button>
+    </div>
+  </div>
+
+  <script defer src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script defer src="scripts/mapa.js"></script>
+</body>
+</html>

@@ -1,0 +1,25 @@
+{
+    "negocios": [
+        {
+            "id": "panaderia-la-union",
+            "activo": true,
+            "nombre": "Panadería La Unión",
+            "rubro": "Panaderia",
+            "direccion": "Cra 6 #7-23, Ubaté",
+            "whatsapp": "573219163532",
+            "comentario": "",
+            "foto": "",
+            "pagina": "negocios/panaderias/panadería-La-Unión/index.html",
+            "carpeta": "negocios/panaderias/panadería-La-Unión",
+            "lat": 5.312,
+            "lng": -73.818,
+            "etiqueta": {
+                "posicion": "left",
+                "desplazamiento": [
+                    -14,
+                    0
+                ]
+            }
+        }
+    ]
+}
