@@ -1,6 +1,8 @@
 const RUBRO_TODOS = 'Todos';
 const RUTA_DATOS = 'datos/mapa.json';
 const RUTA_FOTO_PREDETERMINADA = 'images/fachada-default.png';
+const SERVIDOR_RUTAS = 'https://router.project-osrm.org/route/v1/driving';
+const TIEMPO_MAXIMO_RUTA = 15000;
 const POSICIONES_ETIQUETA = new Set(['top', 'right', 'bottom', 'left', 'center', 'auto']);
 const VALORES_ESTILO_ETIQUETA = {
   fondo: 'backgroundColor',
@@ -19,6 +21,11 @@ const imagenAmpliada = document.getElementById('imagenAmpliada');
 const cerrarVisor = document.getElementById('cerrarVisor');
 const botonCapa = document.getElementById('botonCapa');
 const estadoMapa = document.getElementById('estadoMapa');
+const panelRuta = document.getElementById('panelRuta');
+const tituloRuta = document.getElementById('tituloRuta');
+const resumenRuta = document.getElementById('resumenRuta');
+const pasosRuta = document.getElementById('pasosRuta');
+const cerrarRuta = document.getElementById('cerrarRuta');
 
 let mapa;
 let negocios = [];
@@ -27,6 +34,9 @@ let filtroActual = RUBRO_TODOS;
 let zoomFoto = 1;
 let fotoActiva = null;
 let capaNegocios;
+let capaRuta;
+let rutaLinea = null;
+let solicitudRutaActual = 0;
 let datosJsonActual = '';
 
 function mostrarError(error) {
@@ -86,6 +96,7 @@ function crearMapa() {
   });
 
   capaNegocios = L.layerGroup().addTo(mapa);
+  capaRuta = L.layerGroup().addTo(mapa);
 }
 
 function aplicarEstiloVentana() {
@@ -195,11 +206,16 @@ function crearContenidoNegocio(negocio) {
   telefonoVisible.className = 'telefono-negocio';
   telefonoVisible.textContent = `Teléfono: ${telefono}`;
 
-  const llegar = document.createElement('a');
+  const llegar = document.createElement('button');
+  llegar.type = 'button';
+  llegar.className = 'accion-ruta';
   llegar.textContent = 'Cómo llegar';
-  llegar.href = `https://www.google.com/maps/dir/?api=1&destination=${negocio.lat},${negocio.lng}`;
-  llegar.target = '_blank';
-  llegar.rel = 'noopener noreferrer';
+  llegar.addEventListener('click', event => {
+    event.preventDefault();
+    L.DomEvent.stopPropagation(event);
+    mapa.closePopup();
+    calcularRuta(negocio);
+  });
 
   const acciones = document.createElement('div');
   acciones.className = 'acciones-negocio';
@@ -270,6 +286,159 @@ function mostrarNegocios() {
     });
 }
 
+function obtenerUbicacion() {
+  return new Promise((resolve, reject) => {
+    if(!navigator.geolocation){
+      reject(new Error('Este navegador no permite obtener la ubicación.'));
+      return;
+    }
+
+    navigator.geolocation.getCurrentPosition(
+      posicion => resolve({
+        lat: posicion.coords.latitude,
+        lng: posicion.coords.longitude
+      }),
+      error => reject(error),
+      {enableHighAccuracy: true, timeout: TIEMPO_MAXIMO_RUTA, maximumAge: 60000}
+    );
+  });
+}
+
+function crearUrlGoogleMaps(destino, origen) {
+  const url = new URL('https://www.google.com/maps/dir/');
+  url.searchParams.set('api', '1');
+  url.searchParams.set('destination', `${destino.lat},${destino.lng}`);
+  if(origen){
+    url.searchParams.set('origin', `${origen.lat},${origen.lng}`);
+  }
+  return url.href;
+}
+
+function formatearDistancia(metros) {
+  return metros >= 1000 ? `${(metros / 1000).toFixed(1)} km` : `${Math.round(metros)} m`;
+}
+
+function formatearDuracion(segundos) {
+  const minutos = Math.round(segundos / 60);
+  const horas = Math.floor(minutos / 60);
+  const minutosRestantes = minutos % 60;
+  return horas ? `${horas} h ${minutosRestantes} min` : `${minutos} min`;
+}
+
+function crearInstruccion(paso) {
+  const maniobra = paso.maneuver || {};
+  const direccion = {
+    left: 'a la izquierda',
+    right: 'a la derecha',
+    'slight left': 'ligeramente a la izquierda',
+    'slight right': 'ligeramente a la derecha',
+    'sharp left': 'pronunciadamente a la izquierda',
+    'sharp right': 'pronunciadamente a la derecha',
+    straight: 'recto',
+    uturn: 'en U'
+  }[maniobra.modifier] || '';
+  const calle = paso.name ? ` por ${paso.name}` : '';
+
+  switch(maniobra.type){
+    case 'depart':
+      return `Inicie el recorrido${calle}`;
+    case 'arrive':
+      return 'Ha llegado al destino';
+    case 'turn':
+    case 'end of road':
+      return `Gire ${direccion || 'en la vía'}${calle}`;
+    case 'fork':
+      return `En la bifurcación, continúe ${direccion || 'recto'}${calle}`;
+    case 'merge':
+      return `Incorpórese${direccion ? ` ${direccion}` : ''}${calle}`;
+    case 'on ramp':
+      return `Tome la entrada${direccion ? ` ${direccion}` : ''}${calle}`;
+    case 'off ramp':
+      return `Tome la salida${direccion ? ` ${direccion}` : ''}${calle}`;
+    case 'roundabout':
+    case 'rotary':
+    case 'roundabout turn':
+      return 'Continúe por la glorieta';
+    case 'exit roundabout':
+    case 'exit rotary':
+      return `Salga de la glorieta${direccion ? ` ${direccion}` : ''}`;
+    default:
+      return `Continúe ${direccion || 'recto'}${calle}`;
+  }
+}
+
+function mostrarPasosRuta(ruta) {
+  const pasos = ruta.legs.flatMap(tramo => tramo.steps || []);
+  pasosRuta.replaceChildren();
+
+  pasos.forEach(paso => {
+    const elemento = document.createElement('li');
+    const distancia = document.createElement('strong');
+    elemento.textContent = `${crearInstruccion(paso)} (`;
+    distancia.textContent = formatearDistancia(paso.distance);
+    elemento.append(distancia, ')');
+    pasosRuta.append(elemento);
+  });
+}
+
+async function calcularRuta(negocio) {
+  const solicitud = ++solicitudRutaActual;
+  const destino = {lat: Number(negocio.lat), lng: Number(negocio.lng)};
+  capaRuta.clearLayers();
+  rutaLinea = null;
+  tituloRuta.textContent = `Cómo llegar a ${negocio.nombre}`;
+  resumenRuta.textContent = 'Obteniendo tu ubicación…';
+  pasosRuta.replaceChildren();
+  panelRuta.hidden = false;
+
+  let origen;
+  try{
+    origen = await obtenerUbicacion();
+    if(solicitud !== solicitudRutaActual) return;
+
+    const controlador = new AbortController();
+    const temporizador = window.setTimeout(() => controlador.abort(), TIEMPO_MAXIMO_RUTA);
+    let respuesta;
+    try{
+      const coordenadas = `${origen.lng},${origen.lat};${destino.lng},${destino.lat}`;
+      const url = `${SERVIDOR_RUTAS}/${coordenadas}?overview=full&geometries=geojson&steps=true`;
+      respuesta = await fetch(url, {signal: controlador.signal});
+    }finally{
+      window.clearTimeout(temporizador);
+    }
+
+    if(!respuesta.ok){
+      throw new Error(`El servicio de rutas respondió con HTTP ${respuesta.status}.`);
+    }
+    const datos = await respuesta.json();
+    const ruta = datos.routes?.[0];
+    if(datos.code !== 'Ok' || !ruta || !Array.isArray(ruta.geometry?.coordinates) || !Array.isArray(ruta.legs)){
+      throw new Error('El servicio no encontró una ruta válida.');
+    }
+    const coordenadas = ruta.geometry.coordinates.map(coordenada => [coordenada[1], coordenada[0]]);
+    if(coordenadas.length < 2 || coordenadas.some(coordenada => !coordenada.every(Number.isFinite))){
+      throw new Error('La geometría recibida para la ruta no es válida.');
+    }
+    if(solicitud !== solicitudRutaActual) return;
+
+    rutaLinea = L.polyline(coordenadas, {color: '#2563eb', weight: 6, opacity: 0.9}).addTo(capaRuta);
+    mapa.fitBounds(rutaLinea.getBounds(), {padding: [32, 32]});
+    resumenRuta.textContent = `${formatearDistancia(ruta.distance)} · ${formatearDuracion(ruta.duration)}`;
+    mostrarPasosRuta(ruta);
+  }catch(error){
+    if(solicitud !== solicitudRutaActual) return;
+    console.error('No se pudo calcular la ruta dentro del mapa. Se abrirá Google Maps en esta pestaña.', error);
+    window.location.assign(crearUrlGoogleMaps(destino, origen));
+  }
+}
+
+function cerrarPanelRuta() {
+  solicitudRutaActual += 1;
+  capaRuta.clearLayers();
+  rutaLinea = null;
+  panelRuta.hidden = true;
+}
+
 function cambiarZoom(valor) {
   zoomFoto = Math.min(4, Math.max(1, valor));
   imagenAmpliada.style.setProperty('--zoom', zoomFoto);
@@ -333,6 +502,7 @@ function configurarControles() {
   document.getElementById('acercarFoto').addEventListener('click', () => cambiarZoom(zoomFoto + 0.5));
   document.getElementById('alejarFoto').addEventListener('click', () => cambiarZoom(zoomFoto - 0.5));
   document.getElementById('restablecerZoom').addEventListener('click', () => cambiarZoom(1));
+  cerrarRuta.addEventListener('click', cerrarPanelRuta);
   visorFoto.addEventListener('wheel', event => {
     event.preventDefault();
     cambiarZoom(zoomFoto + (event.deltaY < 0 ? 0.25 : -0.25));

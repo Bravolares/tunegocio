@@ -40,6 +40,17 @@ button{font:inherit;cursor:pointer}
 .leaflet-control-attribution{max-width:85%;white-space:normal;text-align:right}
 .estado-mapa{position:absolute;top:50%;left:50%;z-index:500;max-width:min(90%,420px);padding:14px 18px;transform:translate(-50%,-50%);border-radius:12px;background:#fff;color:#7f1d1d;box-shadow:0 4px 18px #0003;text-align:center}
 .estado-mapa[hidden]{display:none}
+.panel-ruta{position:absolute;right:12px;bottom:12px;z-index:700;width:min(380px,calc(100% - 24px));max-height:min(65%,520px);overflow:hidden;border:1px solid #dbe3ee;border-radius:14px;background:#fff;color:#172033;box-shadow:0 8px 26px #0004}
+.panel-ruta[hidden]{display:none}
+.encabezado-ruta{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 14px;border-bottom:1px solid #e2e8f0}
+.encabezado-ruta strong{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.encabezado-ruta button{flex:none;width:32px;height:32px;border:0;border-radius:8px;background:#f1f5f9;color:#334155;font-size:22px;line-height:1}
+.resumen-ruta{margin:0;padding:10px 14px;color:#1d4ed8;font-size:14px;font-weight:700}
+.pasos-ruta{max-height:min(42vh,340px);overflow-y:auto;margin:0;padding:0 14px 12px 38px}
+.pasos-ruta li{padding:9px 0;border-bottom:1px solid #eef2f7;line-height:1.4}
+.pasos-ruta li:last-child{border-bottom:0}
+.acciones-negocio .accion-ruta{padding:0;border:0;background:transparent;color:var(--ventana-enlaces,#0284c7);font:inherit;text-decoration:underline}
+.acciones-negocio .accion-ruta:hover{text-decoration:none}
 .visor-foto{position:fixed;inset:0;z-index:2000;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:24px;background:#000e}
 .visor-foto[hidden]{display:none}
 .visor-foto-contenido{display:flex;align-items:center;justify-content:center;max-width:100%;max-height:75vh;overflow:auto}

@@ -19,6 +19,14 @@
   </div>
   <div id="mapa" aria-label="Mapa de negocios">
     <div id="estadoMapa" class="estado-mapa" role="alert" hidden></div>
+    <aside id="panelRuta" class="panel-ruta" aria-label="Indicaciones de ruta" hidden>
+      <div class="encabezado-ruta">
+        <strong id="tituloRuta">Cómo llegar</strong>
+        <button id="cerrarRuta" type="button" aria-label="Cerrar ruta">×</button>
+      </div>
+      <p id="resumenRuta" class="resumen-ruta" aria-live="polite"></p>
+      <ol id="pasosRuta" class="pasos-ruta"></ol>
+    </aside>
   </div>
   <div class="selector-mapa">
     <button id="botonCapa" class="boton-capa" type="button" aria-pressed="false">🛰️ Ver satélite</button>
