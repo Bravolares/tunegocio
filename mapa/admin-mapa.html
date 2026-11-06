@@ -1,0 +1,115 @@
+Desechame este, loko 😄
+
+Ahora pega este código en `admin-mapa.html`:
+```
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ADMIN MAPA - Celulokos</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<style>
+*{box-sizing:border-box;margin:0;font-family:system-ui,Inter,sans-serif}
+header{background:#2563eb;color:#fff;padding:14px 16px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:1000}
+header b{font-size:19px}
+button{padding:11px 14px;border:none;border-radius:10px;font-weight:700;cursor:pointer}
+.btn-verde{background:#16a34a;color:#fff}
+.btn-negro{background:#111827;color:#fff}
+#admin{padding:18px}
+#admin input,#admin select{width:100%;padding:12px;margin:7px 0;border:1px solid #ddd;border-radius:10px;font-size:15px}
+#mapaAdmin{height:50vh;width:100%;margin:10px 0}
+</style>
+</head>
+<body>
+
+<header>
+<b>⚙️ ADMIN MAPA - Celulokos</b>
+</header>
+
+<div id="admin">
+<h2>⚙️ ADMIN MAPA - Celulokos</h2>
+<p style="color:#666">Solo el dueño puede editar. Clave de acceso:</p>
+<input id="clave" type="password" placeholder="Escribe la clave">
+<button class="btn-verde" onclick="entrarAdmin()" style="width:100%">Entrar al Admin</button>
+
+<div id="mapaAdmin"></div>
+
+<input id="fNombre" placeholder="Nombre del negocio">
+<select id="fRubro">
+<option value="Celulares">📱 Celulares</option>
+<option value="Panaderia">🥐 Panadería</option>
+<option value="Ferreteria">🔨 Ferretería</option>
+<option value="Cafe">☕ Café / Tinto</option>
+<option value="Restaurante">🍽️ Restaurante</option>
+<option value="Otro">🏪 Otro</option>
+</select>
+<input id="fDir" placeholder="Dirección">
+<input id="fWhats" placeholder="WhatsApp">
+<input id="fLat" placeholder="Latitud (toca el mapa)">
+<input id="fLng" placeholder="Longitud (toca el mapa)">
+<button class="btn-verde" onclick="guardarAdmin()" style="width:100%">💾 Guardar negocio</button>
+
+<div id="listaNegociosAdmin"></div>
+</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+const CLAVE = "celulokos123";
+const RUBROS = [
+{id:'Celulares',label:'📱 Celulares'},
+{id:'Panaderia',label:'🥐 Panadería'},
+{id:'Ferreteria',label:'🔨 Ferretería'},
+{id:'Cafe',label:'☕ Café / Tinto'},
+{id:'Restaurante',label:'🍽️ Restaurante'},
+{id:'Otro',label:'🏪 Otro'}
+];
+let negocios = JSON.parse(localStorage.getItem('celulokos_negocios') || 'null') || [
+{nombre:'Celulokos - Ubaté',rubro:'Celulares',direccion:'Parque Principal, Ubaté',whatsapp:'573219163532',lat:5.3097,lng:-73.8166},
+{nombre:'Panadería La Unión',rubro:'Panaderia',direccion:'Cra 6 #7-23, Ubaté',whatsapp:'573219163532',lat:5.3120,lng:-73.8180},
+{nombre:'Ferretería El Tornillo',rubro:'Ferreteria',direccion:'Calle 5 #4-10, Ubaté',whatsapp:'573219163532',lat:5.3075,lng:-73.8140},
+{nombre:'Tinto de Fúquene',rubro:'Cafe',direccion:'Fúquene, Cundinamarca',whatsapp:'573219163532',lat:5.4388,lng:-73.7650}
+];
+let mapAdmin = L.map('mapaAdmin').setView([5.33,-73.79],12);
+L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}').addTo(mapAdmin);
+let capaAdmin = L.layerGroup().addTo(mapAdmin);
+
+function entrarAdmin(){
+if(document.getElementById('clave').value!==CLAVE) return alert('Clave incorrecta');
+dibujarAdmin();
+}
+
+function dibujarAdmin(){
+capaAdmin.clearLayers();
+negocios.forEach(n=>{
+let m = L.marker([n.lat,n.lng]).addTo(capaAdmin);
+m.bindPopup(`<b>${n.nombre}</b><br>${n.direccion}`);
+});
+mapAdmin.on('click',e=>{
+document.getElementById('fLat').value=e.latlng.lat;
+document.getElementById('fLng').value=e.latlng.lng;
+});
+}
+
+function guardarAdmin(){
+let n={nombre:document.getElementById('fNombre').value,rubro:document.getElementById('fRubro').value,direccion:document.getElementById('fDir').value,whatsapp:document.getElementById('fWhats').value,lat:parseFloat(document.getElementById('fLat').value),lng:parseFloat(document.getElementById('fLng').value)};
+if(!n.nombre||!n.lat) return alert('Pon nombre y toca el mapa para lat/lng');
+negocios.push(n);
+localStorage.setItem('celulokos_negocios',JSON.stringify(negocios));
+alert('Guardado! El mapa público se actualiza solo.');
+dibujarAdmin();
+}
+</script>
+</body>
+</html>
+```
+
+*Ahora:*
+- Abre `admin-mapa.html` en el navegador
+- Pone la clave `celulokos123`
+- Toca en el mapa para agregar un punto
+- Llena los datos y guarda
+
+El mapa público (`mapa.html`) se va a actualizar solo con los cambios 😄
+
+¿Quieres probar, o le cambiamos algo?

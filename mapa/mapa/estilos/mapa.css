@@ -1,0 +1,61 @@
+*{box-sizing:border-box}
+html,body{height:100%;margin:0;font-family:system-ui,Inter,sans-serif}
+body{height:100vh;height:100dvh;display:flex;flex-direction:column;overflow:hidden}
+header{flex:none;background:#2563eb;color:#fff;padding:14px 16px}
+header b{font-size:19px}
+.barra-filtros{position:relative;z-index:1000;flex:none;padding:9px 12px;background:#fff;box-shadow:0 2px 6px #0002}
+button{font:inherit;cursor:pointer}
+.boton-filtro{min-width:110px;padding:10px 15px;border:0;border-radius:10px;background:#2563eb;color:#fff;font-weight:700;text-align:left}
+.boton-filtro::after{content:"▾";float:right;margin-left:18px}
+.menu-filtros{position:absolute;top:calc(100% + 4px);left:12px;min-width:190px;max-height:calc(100dvh - 130px);overflow-y:auto;padding:5px;background:#fff;border:1px solid #e2e8f0;border-radius:12px;box-shadow:0 8px 24px #0003}
+.menu-filtros[hidden]{display:none}
+.opcion-filtro{display:block;width:100%;padding:10px 12px;border:0;border-radius:8px;background:#fff;color:#111827;text-align:left}
+.opcion-filtro:hover,.opcion-filtro.activo{background:#eff6ff;color:#1d4ed8}
+.selector-mapa{flex:none;padding:9px 12px;background:#fff;border-top:1px solid #e2e8f0}
+.boton-capa{display:block;width:100%;padding:10px 14px;border:1px solid #cbd5e1;border-radius:10px;background:#fff;color:#1e293b;font-weight:700;text-align:center}
+.boton-capa:hover{background:#f1f5f9}
+.leaflet-popup.ventana-negocio .leaflet-popup-content-wrapper{background:var(--ventana-fondo,#fff);color:var(--ventana-texto,#172033);border-radius:var(--ventana-radio,12px);box-shadow:var(--ventana-sombra,0 4px 16px #0004)}
+.leaflet-popup.ventana-negocio .leaflet-popup-tip{background:var(--ventana-fondo,#fff);box-shadow:var(--ventana-sombra,0 4px 16px #0004)}
+.leaflet-popup.ventana-negocio .leaflet-popup-content{margin:var(--ventana-relleno,13px);color:var(--ventana-texto,#172033);font-size:var(--ventana-texto-tamano,13px)}
+.leaflet-popup.ventana-negocio .leaflet-popup-close-button{color:var(--ventana-texto,#172033)}
+.contenido-negocio{display:flex;flex-direction:column;gap:var(--ventana-espaciado,5px);width:min(var(--ventana-ancho,260px),80vw);max-height:min(var(--ventana-alto-maximo,420px),65vh);overflow-y:auto}
+.foto-negocio{display:block;flex:none;width:100%;height:var(--ventana-alto-foto,100px);object-fit:cover;border-radius:var(--ventana-radio-foto,8px);cursor:zoom-in}
+.nombre-negocio,.comentario-negocio,.direccion-negocio,.telefono-negocio{display:-webkit-box;overflow:hidden;-webkit-box-orient:vertical;-webkit-line-clamp:2;line-height:18px}
+.nombre-negocio{min-height:22px;color:var(--ventana-nombre,#172033);font-size:var(--ventana-nombre-tamano,14px)}
+.comentario-negocio,.direccion-negocio,.telefono-negocio{margin:0}
+.contenido-negocio p{margin:0}
+.comentario-negocio{min-height:36px;color:var(--ventana-descripcion,#475569)}
+.direccion-negocio{min-height:18px}
+.telefono-negocio{min-height:18px}
+.direccion-negocio,.telefono-negocio{color:var(--ventana-detalles,#334155)}
+.acciones-negocio{display:flex;flex:none;justify-content:space-between;gap:8px}
+.acciones-negocio a{color:var(--ventana-enlaces,#0284c7)}
+.acciones-negocio .whatsapp-desactivado{color:#94a3b8;text-decoration:none;cursor:not-allowed}
+.boton-web{display:block;flex:none;padding:8px 10px;border-radius:8px;background:#1e293b;color:#fff;text-align:center;text-decoration:none;font-size:13px;font-weight:700;transition:background .15s}
+.contenido-negocio .boton-web{border:0;border-radius:var(--ventana-radio-boton,8px);background:var(--ventana-boton-fondo,#1e293b);color:var(--ventana-boton-texto,#0ea5e9);font-size:var(--ventana-boton-tamano,13px)}
+.contenido-negocio .boton-web:hover:not(:disabled){filter:brightness(1.12)}
+.contenido-negocio .boton-web:disabled{width:100%;background:var(--ventana-boton-inactivo-fondo,#94a3b8);color:var(--ventana-boton-inactivo-texto,#f8fafc);cursor:not-allowed}
+.leaflet-tooltip.negocio-tooltip{padding:0;border:0;background:transparent;box-shadow:none;white-space:nowrap}
+.texto-etiqueta{display:inline-block;padding:5px 9px;border-radius:999px;background:#fff;color:#1e293b;font-size:12px;font-weight:700;box-shadow:0 2px 8px #0005}
+.leaflet-control-attribution{max-width:85%;white-space:normal;text-align:right}
+.estado-mapa{position:absolute;top:50%;left:50%;z-index:500;max-width:min(90%,420px);padding:14px 18px;transform:translate(-50%,-50%);border-radius:12px;background:#fff;color:#7f1d1d;box-shadow:0 4px 18px #0003;text-align:center}
+.estado-mapa[hidden]{display:none}
+.panel-ruta{position:absolute;right:12px;bottom:12px;z-index:700;width:min(380px,calc(100% - 24px));max-height:min(65%,520px);overflow:hidden;border:1px solid #dbe3ee;border-radius:14px;background:#fff;color:#172033;box-shadow:0 8px 26px #0004}
+.panel-ruta[hidden]{display:none}
+.encabezado-ruta{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 14px;border-bottom:1px solid #e2e8f0}
+.encabezado-ruta strong{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.encabezado-ruta button{flex:none;width:32px;height:32px;border:0;border-radius:8px;background:#f1f5f9;color:#334155;font-size:22px;line-height:1}
+.resumen-ruta{margin:0;padding:10px 14px;color:#1d4ed8;font-size:14px;font-weight:700}
+.pasos-ruta{max-height:min(42vh,340px);overflow-y:auto;margin:0;padding:0 14px 12px 38px}
+.pasos-ruta li{padding:9px 0;border-bottom:1px solid #eef2f7;line-height:1.4}
+.pasos-ruta li:last-child{border-bottom:0}
+.acciones-negocio .accion-ruta{padding:0;border:0;background:transparent;color:var(--ventana-enlaces,#0284c7);font:inherit;text-decoration:underline}
+.acciones-negocio .accion-ruta:hover{text-decoration:none}
+.visor-foto{position:fixed;inset:0;z-index:2000;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:24px;background:#000e}
+.visor-foto[hidden]{display:none}
+.visor-foto-contenido{display:flex;align-items:center;justify-content:center;max-width:100%;max-height:75vh;overflow:auto}
+.visor-foto-imagen{max-width:90vw;max-height:75vh;object-fit:contain;transform:scale(var(--zoom,1));transform-origin:center;transition:transform .15s}
+.visor-foto-controles{display:flex;align-items:center;gap:10px}
+.visor-foto button{min-width:42px;padding:9px 12px;border:0;border-radius:8px;background:#fff;color:#111827;font-size:18px}
+.visor-foto .visor-cerrar{position:absolute;top:14px;right:14px;font-size:24px}
+#mapa{position:relative;flex:1;min-height:0;width:100%;z-index:1}

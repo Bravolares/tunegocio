@@ -1,0 +1,64 @@
+{
+    "configuracion": {
+        "rubros": [
+            {
+                "id": "Todos",
+                "label": "✨ Todos"
+            },
+            {
+                "id": "Celulares",
+                "label": "📱 Celulares1",
+                "slug": "celulares",
+                "archivo": "negocios/celulares/clientes.json"
+            },
+            {
+                "id": "Panaderia",
+                "label": "🥐 Panadería",
+                "slug": "panaderias",
+                "archivo": "negocios/panaderias/clientes.json"
+            },
+            {
+                "id": "Ferreteria",
+                "label": "🔨 Ferretería",
+                "slug": "ferreteria",
+                "archivo": "negocios/ferreteria/clientes.json"
+            },
+            {
+                "id": "Cafe",
+                "label": "☕ Café / Tinto",
+                "slug": "cafe-tinto",
+                "archivo": "negocios/cafe-tinto/clientes.json"
+            },
+            {
+                "id": "Restaurante",
+                "label": "🍽️ Restaurante",
+                "slug": "restaurantes",
+                "archivo": "negocios/restaurantes/clientes.json"
+            },
+            {
+                "id": "Otro",
+                "label": "🏪 Otro",
+                "slug": "otros",
+                "archivo": "negocios/otros/clientes.json"
+            }
+        ],
+        "telefonoPredeterminado": "573219163532",
+        "etiquetaPredeterminada": {
+            "posicion": "bottom",
+            "desplazamiento": [
+                0,
+                18
+            ],
+            "estilo": {
+                "fondo": "#ffffff",
+                "texto": "#1e293b",
+                "tamano": "12px",
+                "peso": "700",
+                "relleno": "5px 9px",
+                "radio": "999px",
+                "sombra": "0 2px 8px #0005"
+            }
+        }
+    },
+    "negocios": []
+}

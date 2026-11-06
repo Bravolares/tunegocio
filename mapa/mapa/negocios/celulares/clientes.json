@@ -1,0 +1,25 @@
+{
+    "negocios": [
+        {
+            "id": "celulokos-ubate",
+            "activo": true,
+            "nombre": "Celulokos - Ubaté",
+            "rubro": "Celulares",
+            "direccion": "Parque Principal, Ubaté",
+            "whatsapp": "573219163532",
+            "comentario": "",
+            "foto": "",
+            "pagina": "",
+            "carpeta": "negocios/celulares/celulokos-ubate",
+            "lat": 5.3097,
+            "lng": -73.8166,
+            "etiqueta": {
+                "posicion": "bottom",
+                "desplazamiento": [
+                    0,
+                    18
+                ]
+            }
+        }
+    ]
+}

@@ -314,6 +314,10 @@ function crearUrlGoogleMaps(destino, origen) {
   return url.href;
 }
 
+function abrirGoogleMapsEnLaMismaPestana(destino, origen) {
+  window.location.href = crearUrlGoogleMaps(destino, origen);
+}
+
 function formatearDistancia(metros) {
   return metros >= 1000 ? `${(metros / 1000).toFixed(1)} km` : `${Math.round(metros)} m`;
 }
@@ -428,7 +432,7 @@ async function calcularRuta(negocio) {
   }catch(error){
     if(solicitud !== solicitudRutaActual) return;
     console.error('No se pudo calcular la ruta dentro del mapa. Se abrirá Google Maps en esta pestaña.', error);
-    window.location.assign(crearUrlGoogleMaps(destino, origen));
+    abrirGoogleMapsEnLaMismaPestana(destino, origen);
   }
 }
 

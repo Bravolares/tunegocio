@@ -1,0 +1,25 @@
+{
+    "negocios": [
+        {
+            "id": "tinto-de-fuquene",
+            "activo": true,
+            "nombre": "Tinto de Fúquene",
+            "rubro": "Cafe",
+            "direccion": "Fúquene, Cundinamarca",
+            "whatsapp": "573219163532",
+            "comentario": "",
+            "foto": "",
+            "pagina": "",
+            "carpeta": "negocios/cafe-tinto/tinto-de-fuquene",
+            "lat": 5.4388,
+            "lng": -73.765,
+            "etiqueta": {
+                "posicion": "top",
+                "desplazamiento": [
+                    0,
+                    -18
+                ]
+            }
+        }
+    ]
+}
